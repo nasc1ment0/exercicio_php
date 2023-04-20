@@ -4,6 +4,25 @@ require_once 'validador_acesso.php';
 
 ?>
 
+<?php
+
+//chamados
+
+$chamados = [];
+
+$arquivo = fopen('arquivo.txt', 'r');
+
+//vai recuperar os chamados
+while(!feof($arquivo)){
+
+    $registro = fgets($arquivo);
+    $chamados[] = $registro; 
+}
+
+fclose($arquivo);
+
+?>
+
 <html>
   <head>
     <meta charset="utf-8" />
@@ -45,24 +64,31 @@ require_once 'validador_acesso.php';
             
             <div class="card-body">
               
+            <?php
+            
+            foreach($chamados as $infos_chamados){
+
+            ?>
+            
+              <?php
+            
+              $chamados_dados = explode('#', $infos_chamados);
+
+              //caso não haja os 3 itens necessários para fazer o chamado não irá aparecer um bloco de chamado vazio
+              if(count($chamados_dados) < 3){
+                continue;
+              }
+              ?>
               <div class="card mb-3 bg-light">
                 <div class="card-body">
-                  <h5 class="card-title">Título do chamado...</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Categoria</h6>
-                  <p class="card-text">Descrição do chamado...</p>
+                  <h5 class="card-title"><?= $chamados_dados[0] ?></h5>
+                  <h6 class="card-subtitle mb-2 text-muted"><?= $chamados_dados[1] ?></h6>
+                  <p class="card-text"><?= $chamados_dados[2] ?></p>
 
                 </div>
               </div>
 
-              <div class="card mb-3 bg-light">
-                <div class="card-body">
-                  <h5 class="card-title">Título do chamado...</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Categoria</h6>
-                  <p class="card-text">Descrição do chamado...</p>
-
-                </div>
-              </div>
-
+            <?php } ?>
               <div class="row mt-5">
                 <div class="col-6">
                 <a class="btn btn-lg btn-warning btn-block" href = "home.php">Voltar</a>
